@@ -1,0 +1,14 @@
+<app-search
+  [leagues]="leaguesFacadeService.leaguesState$ | async"
+  (searchLeagues)="searchLeagues($event)"
+  (getLeagueTeamsEvent)="getLeagueTeams($event)"
+></app-search>
+
+<ng-container *ngIf="leaguesFacadeService.teamsState$ | async as teamState">
+  <div *ngIf="teamState.loading"><mat-spinner></mat-spinner></div>
+  <div *ngIf="teamState.error">An error occurred</div>
+
+  <ng-container *ngIf="teamState.data && !teamState.loading && !teamState.error">
+    <app-teams-list [teams]="leaguesFacadeService.teams$ | async"></app-teams-list>
+  </ng-container>
+</ng-container>
